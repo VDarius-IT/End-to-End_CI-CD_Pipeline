@@ -57,7 +57,6 @@ The CI/CD pipeline is a sequence of automated stages that ensures every change i
 5.  **Deploy to Staging:** The new version is automatically deployed to a staging environment for review and E2E testing.
 6.  **Deploy to Production:** After manual approval, the same validated image is promoted to the production environment.
 
-*A visual diagram created with a tool like diagrams.net would be a great addition here.*
 
 ---
 
