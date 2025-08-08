@@ -20,7 +20,10 @@
     function App() {
       const [health, setHealth] = useState(null);
       useEffect(() => {
-        fetch('/health')
+        const healthURL = (typeof window !== 'undefined') ?
+          (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:3000/health' : 'http://backend:3000/health')
+          : '/health';
+        fetch(healthURL)
           .then(res => res.json())
           .then(data => setHealth(data))
           .catch(() => setHealth({ status: 'unavailable' }));
