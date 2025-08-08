@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js (Backend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Cache backend node_modules
+        uses: actions/cache@v3
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-backend-${{ hashFiles('backend/package-lock.json', 'backend/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-backend-
+
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm ci
+
+      - name: Lint Backend (if present)
+        run: |
+          cd backend
+          npm run lint --if-present
+
+      - name: Test Backend (if present)
+        run: |
+          cd backend
+          npm test --if-present
+
+      - name: Build Backend (if present)
+        run: |
+          cd backend
+          npm run build --if-present
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js (Frontend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Cache frontend node_modules
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-node-frontend-${{ hashFiles('frontend/package-lock.json', 'frontend/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-frontend-
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Lint Frontend (if present)
+        run: |
+          cd frontend
+          npm run lint --if-present
+
+      - name: Test Frontend (if present)
+        run: |
+          cd frontend
+          npm test --if-present
+
+      - name: Build Frontend (if present)
+        run: |
+          cd frontend
+          npm run build --if-present
