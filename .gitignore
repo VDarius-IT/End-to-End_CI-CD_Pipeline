@@ -1,0 +1,22 @@
+# Node / React / JS project ignore rules
+node_modules/
+dist/
+build/
+coverage/
+.env
+.env.local
+.env.development
+.env.production
+.vscode/
+.idea/
+.DS_Store
+npm-debug.log*
+yarn-error.log*
+logs/*
+*.log
+.env.backup
+cache/
+tmp/
+out/
+.pnp.js
+.kata/
