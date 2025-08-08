@@ -29,7 +29,7 @@ jobs:
       - name: Install Backend Dependencies
         run: |
           cd backend
-          npm ci
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
       - name: Lint Backend (if present)
         run: |
@@ -68,7 +68,7 @@ jobs:
       - name: Install Frontend Dependencies
         run: |
           cd frontend
-          npm ci
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
       - name: Lint Frontend (if present)
         run: |
