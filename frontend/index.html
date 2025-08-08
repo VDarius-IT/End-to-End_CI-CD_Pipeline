@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Repo Skeleton - Frontend</title>
+</head>
+<body>
+  <div id="root" style="font-family: Arial, sans-serif; padding: 2rem;">
+    <h1>Frontend Skeleton</h1>
+    <p>This is a minimal frontend scaffold using CDN-backed React for a quick start.</p>
+    <div id="health-status">Backend Health: loading...</div>
+  </div>
+
+  <!-- CDN React setup (no build step required) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script>
+    const { useEffect, useState } = React;
+    function App() {
+      const [health, setHealth] = useState(null);
+      useEffect(() => {
+        fetch('/health')
+          .then(res => res.json())
+          .then(data => setHealth(data))
+          .catch(() => setHealth({ status: 'unavailable' }));
+      }, []);
+
+      const status = health
+        ? (health.status || (health.ok ? 'OK' : 'UNKNOWN'))
+        : 'loading';
+
+      return React.createElement('div', null,
+        React.createElement('p', null, 'Backend Health: ', status)
+      );
+    }
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>
